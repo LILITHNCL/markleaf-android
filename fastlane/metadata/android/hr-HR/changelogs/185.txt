@@ -1,1 +1,3 @@
 Novo: postavke imaju gumb za pretraživanje. Upišite naziv, opis ili jednu od opcija postavke i dodirnite rezultat da biste skočili ravno na nju; TalkBack fokus ide za njom. Rade i nazivi odjeljaka.
+
+Ispravljeno: „Pronađi u bilješci” više ne odvlači tipkovnicu ni kursor kad prelazite između uređivanja i pretpregleda ili izlazite iz načina fokusa.

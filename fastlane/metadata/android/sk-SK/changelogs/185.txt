@@ -1,1 +1,3 @@
 Novinka: nastavenia majú tlačidlo vyhľadávania. Napíšte názov, popis alebo jednu z možností nastavenia a ťuknite na výsledok, čím naň priamo skočíte; zameranie TalkBack sa presunie tiež. Fungujú aj názvy sekcií.
+
+Opravené: „Vyhľadať v poznámke“ už neodťahuje klávesnicu ani kurzor pri prepínaní medzi úpravou a náhľadom alebo pri odchode z režimu čistého písania.

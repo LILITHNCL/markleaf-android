@@ -1,1 +1,3 @@
 New: Settings has a search button. Type a setting's name, description or one of its options and tap a result to jump straight to it, with focus moved there for TalkBack. Section names work too.
+
+Fixed: Find in note no longer pulls the keyboard or the cursor away when you switch between Edit and Preview or leave Focus mode.
