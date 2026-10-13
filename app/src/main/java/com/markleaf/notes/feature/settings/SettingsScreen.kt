@@ -562,6 +562,14 @@ fun SettingsScreen(
                                 }
                             )
                             Spacer(Modifier.height(12.dp))
+                            SnippetButtonsSetting(
+                                buttons = appSettings.snippetButtons,
+                                titleModifier = anchors.item(SettingsItem.SNIPPET_BUTTONS),
+                                onChange = { buttons ->
+                                    scope.launch { settingsRepository.setSnippetButtons(buttons) }
+                                }
+                            )
+                            Spacer(Modifier.height(12.dp))
                             Text(
                                 text = stringResource(R.string.line_width),
                                 modifier = anchors.item(SettingsItem.LINE_WIDTH),

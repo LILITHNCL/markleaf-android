@@ -23,6 +23,7 @@ import androidx.compose.ui.test.pressKey
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.semantics.SemanticsActions
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.markleaf.notes.data.settings.SnippetButton
 import com.markleaf.notes.ui.theme.MarkleafTheme
 import org.junit.Assert.assertEquals
 import org.junit.Rule
@@ -332,12 +333,51 @@ class EditorFormattingControlsTest {
         composeRule.onNodeWithContentDescription("Undo").assertIsNotEnabled()
     }
 
+    @Test
+    fun snippetsSitAfterTheFormattingButtonAndCloseThePanelWhenTapped() {
+        val expanded = mutableStateOf(true)
+        val snippets = listOf(
+            SnippetButton(label = "NG", text = "[[Nei Gong]]"),
+            SnippetButton(label = "", text = "[[{|}]]")
+        )
+        var picked: SnippetButton? = null
+        render(
+            state = { EditorFormattingUiState(expanded = expanded.value, snippets = snippets) },
+            onExpandedChange = { expanded.value = it },
+            onSnippet = { picked = it }
+        )
+
+        composeRule.onNodeWithText("[[]]").assertIsDisplayed()
+        composeRule.onNodeWithContentDescription("Insert snippet: [[Nei Gong]]")
+            .assertIsDisplayed()
+            .performClick()
+
+        assertEquals(snippets[0], picked)
+        assertEquals(false, expanded.value)
+        composeRule.onNodeWithContentDescription("Formatting").assertIsDisplayed()
+    }
+
+    @Test
+    fun aSelectionShowsNoSnippets() {
+        render(
+            state = {
+                EditorFormattingUiState(
+                    selectionActive = true,
+                    snippets = listOf(SnippetButton(label = "NG", text = "[[Nei Gong]]"))
+                )
+            }
+        )
+
+        composeRule.onNodeWithText("NG").assertDoesNotExist()
+    }
+
     private fun render(
         state: () -> EditorFormattingUiState,
         onExpandedChange: (Boolean) -> Unit = {},
         onAction: (EditorFormattingAction) -> Unit = {},
         onUndo: () -> Unit = {},
-        onRedo: () -> Unit = {}
+        onRedo: () -> Unit = {},
+        onSnippet: (SnippetButton) -> Unit = {}
     ) {
         composeRule.setContent {
             MarkleafTheme(dynamicColor = false) {
@@ -352,7 +392,8 @@ class EditorFormattingControlsTest {
                         modifier = Modifier,
                         backgroundColor = MaterialTheme.colorScheme.background,
                         onUndo = onUndo,
-                        onRedo = onRedo
+                        onRedo = onRedo,
+                        onSnippet = onSnippet
                     )
                 }
             }

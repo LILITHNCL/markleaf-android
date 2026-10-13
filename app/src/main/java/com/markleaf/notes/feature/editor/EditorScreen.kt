@@ -100,6 +100,7 @@ import com.markleaf.notes.data.settings.AppSettings
 import com.markleaf.notes.data.settings.AppSettingsRepository
 import com.markleaf.notes.data.settings.MarkdownSyntaxVisibility
 import com.markleaf.notes.data.settings.OpenNotesAt
+import com.markleaf.notes.data.settings.SnippetButton
 import com.markleaf.notes.data.sync.LocalNoteLinkResult
 import com.markleaf.notes.data.sync.NoteFolderMirror
 import com.markleaf.notes.data.sync.localNoteLinkVerdict
@@ -693,6 +694,12 @@ fun EditorScreen(
             }
         }
     }
+    val applySnippet: (SnippetButton) -> Unit = { snippet ->
+        HapticFeedback.light(context)
+        applyEdit(insertSnippet(editorState, snippet))
+        shouldRequestEditorFocus = true
+        if (isLoaded) saver.requestSave()
+    }
     val exportSingleLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.CreateDocument("text/markdown")
     ) { uri ->
@@ -1113,6 +1120,12 @@ fun EditorScreen(
         !appSettings.showFormattingButton && editorState.selection.collapsed
     val showsFormattingEntry = !isFormattingPreempted && !isFormattingIdle
     val showsSelectionActions = !isFormattingPreempted && !editorState.selection.collapsed
+    // The user's snippet buttons (#436) ride on the entry row, so they follow
+    // it: gone while something else owns the row or text is selected. They
+    // don't depend on "Show formatting button" — someone who hid `Aa` and then
+    // added snippets wants the snippets.
+    val rowSnippets =
+        if (isFormattingPreempted || !editorState.selection.collapsed) emptyList() else appSettings.snippetButtons
     LaunchedEffect(isFormattingPreempted, isFormattingIdle) {
         if (isFormattingPreempted || isFormattingIdle) isFormattingExpanded = false
     }
@@ -1850,7 +1863,7 @@ fun EditorScreen(
                     val undoAvailable = undoHistory.canUndo || undoHistory.canRedo
                     if (
                         !isEditorRowPreempted &&
-                        (showsFormattingEntry || showsSelectionActions || undoAvailable)
+                        (showsFormattingEntry || showsSelectionActions || undoAvailable || rowSnippets.isNotEmpty())
                     ) {
                         EditorFormattingControls(
                             state = EditorFormattingUiState(
@@ -1859,7 +1872,8 @@ fun EditorScreen(
                                 enabled = isLoaded,
                                 canUndo = undoHistory.canUndo,
                                 canRedo = undoHistory.canRedo,
-                                showFormattingEntry = showsFormattingEntry
+                                showFormattingEntry = showsFormattingEntry,
+                                snippets = rowSnippets
                             ),
                             onExpandedChange = { expanded ->
                                 isFormattingExpanded = expanded
@@ -1868,7 +1882,8 @@ fun EditorScreen(
                             onAction = applyFormattingAction,
                             backgroundColor = MaterialTheme.colorScheme.background,
                             onUndo = performUndo,
-                            onRedo = performRedo
+                            onRedo = performRedo,
+                            onSnippet = applySnippet
                         )
                     }
                 }
