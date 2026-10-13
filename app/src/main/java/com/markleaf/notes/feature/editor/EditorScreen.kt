@@ -582,6 +582,8 @@ fun EditorScreen(
     var isFindOpen by remember(noteId) { mutableStateOf(false) }
     /** Which mode the find bar was opened in; see the find match lists (#417). */
     var findOpenedInPreview by remember(noteId) { mutableStateOf(false) }
+    /** Set when Find opens, cleared once the bar has taken focus; see FindBar's focusOnShow. */
+    var findFocusPending by remember(noteId) { mutableStateOf(false) }
     /** Bumped after each preview find step; see the preview find effect (#417). */
     var findRevealKey by remember(noteId) { mutableIntStateOf(0) }
     var findQuery by remember(noteId) { mutableStateOf("") }
@@ -1121,7 +1123,14 @@ fun EditorScreen(
 
     // The outline is a screen, not a sheet: it takes over the bar and the body
     // rather than floating above them, so a long one gets the full height (#215).
-    BackHandler(enabled = showOutline) { showOutline = false }
+    // The outline replaces the whole editor body, so whatever held focus is gone
+    // when it closes. With Find still open, its search field is the one to give
+    // it back to — unlike Focus mode, there is no caret in the editor to keep.
+    val dismissOutline = {
+        showOutline = false
+        if (isFindOpen) findFocusPending = true
+    }
+    BackHandler(enabled = showOutline) { dismissOutline() }
 
     // Where a tapped outline entry lands. In preview the rendered index is what
     // scrolls the list. While editing it has to move the caret instead —
@@ -1170,7 +1179,7 @@ fun EditorScreen(
     Scaffold(
         topBar = topBar@{
             if (showOutline) {
-                NoteOutlineTopBar(onClose = { showOutline = false })
+                NoteOutlineTopBar(onClose = dismissOutline)
                 return@topBar
             }
             EditorTopAppBar(
@@ -1233,6 +1242,7 @@ fun EditorScreen(
                             isFindOpen = !isFindOpen
                             if (isFindOpen) {
                                 findOpenedInPreview = isPreviewMode
+                                findFocusPending = true
                                 findQuery = ""
                                 replaceQuery = ""
                             }
@@ -1339,11 +1349,17 @@ fun EditorScreen(
                         .consumeWindowInsets(paddingValues)
                         .imePadding()
                 ) {
-                    if (isFindOpen) {
+                    // Only in the mode Find was opened in: Crossfade composes both
+                    // branches during a switch, and the effect that closes Find runs
+                    // a frame later, so without the gate the incoming branch would
+                    // compose its own bar for that frame and pull the keyboard to it.
+                    if (isFindOpen && findOpenedInPreview) {
                         // Above the list rather than over it, so the row a match
                         // scrolls to is never under the bar. No replace row: a
                         // replacement edits the source, not the rendered text (#417).
                         FindBar(
+                            focusOnShow = findFocusPending,
+                            onFocusRequested = { findFocusPending = false },
                             query = findQuery,
                             onQueryChange = {
                                 findQuery = it
@@ -1553,8 +1569,11 @@ fun EditorScreen(
                             shortcut != null
                         }
                 ) {
-                    if (isFindOpen && !isFocusMode) {
+                    // Gated on the mode it was opened in, as in the preview branch.
+                    if (isFindOpen && !findOpenedInPreview && !isFocusMode) {
                         FindBar(
+                            focusOnShow = findFocusPending,
+                            onFocusRequested = { findFocusPending = false },
                             query = findQuery,
                             onQueryChange = {
                                 findQuery = it

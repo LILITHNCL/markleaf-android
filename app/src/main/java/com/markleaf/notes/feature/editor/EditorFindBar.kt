@@ -44,16 +44,30 @@ internal fun FindBar(
      * preview matches the rendered text instead, so the two would not line up.
      */
     showReplace: Boolean = true,
+    /**
+     * Whether composing the bar should take focus. True for the composition that
+     * opens Find, and again after the outline (which drops the whole editor body,
+     * focus included). Not after Focus mode: the bar leaves and re-enters
+     * composition there while the editor keeps its caret, and taking that caret
+     * on the return is a jump nobody asked for (#262).
+     */
+    focusOnShow: Boolean = true,
+    onFocusRequested: () -> Unit = {},
     replaceQuery: String = "",
     onReplaceQueryChange: (String) -> Unit = {},
     onReplaceOne: () -> Unit = {},
     onReplaceAll: () -> Unit = {}
 ) {
-    // The bar exists only while Find is open, so composing it is opening it:
-    // put the caret in the search field then, instead of making the reader tap
-    // it before typing (#262).
+    // Opening Find puts the caret in the search field, instead of making the
+    // reader tap it before typing (#262). See focusOnShow for why that is not
+    // every composition.
     val searchFocus = remember { FocusRequester() }
-    LaunchedEffect(Unit) { searchFocus.requestFocus() }
+    LaunchedEffect(Unit) {
+        if (focusOnShow) {
+            searchFocus.requestFocus()
+            onFocusRequested()
+        }
+    }
     Surface(
         modifier = modifier
             .fillMaxWidth()

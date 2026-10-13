@@ -3,7 +3,14 @@ package com.markleaf.notes.feature.editor
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.foundation.layout.Column
+import androidx.compose.material3.TextField
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.test.assertIsFocused
+import androidx.compose.ui.test.assertIsNotFocused
+import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.hasSetTextAction
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -64,5 +71,46 @@ class FindBarFocusTest {
         composeRule.waitForIdle()
 
         composeRule.onAllNodes(hasSetTextAction())[0].assertIsFocused()
+    }
+
+    /**
+     * Focus mode and the outline hide the bar while Find stays open, and it
+     * composes again on return. That return must leave the caret where the
+     * reader had put it — only the composition that opens Find takes focus.
+     */
+    @Test
+    fun theBarComingBackWhileFindStaysOpenDoesNotTakeFocus() {
+        var barShown by mutableStateOf(true)
+        var focusPending by mutableStateOf(true)
+        composeRule.setContent {
+            Column {
+                TextField(value = "", onValueChange = {}, modifier = Modifier.testTag("editor"))
+                if (barShown) {
+                    FindBar(
+                        query = "",
+                        onQueryChange = {},
+                        currentIndex = 0,
+                        totalMatches = 0,
+                        onPrev = {},
+                        onNext = {},
+                        onClose = {},
+                        focusOnShow = focusPending,
+                        onFocusRequested = { focusPending = false }
+                    )
+                }
+            }
+        }
+        composeRule.waitForIdle()
+        composeRule.onAllNodes(hasSetTextAction())[1].assertIsFocused()
+
+        // Back in the editor, then away (Focus mode) and back again.
+        composeRule.onNodeWithTag("editor").performClick()
+        barShown = false
+        composeRule.waitForIdle()
+        barShown = true
+        composeRule.waitForIdle()
+
+        composeRule.onNodeWithTag("editor").assertIsFocused()
+        composeRule.onAllNodes(hasSetTextAction())[1].assertIsNotFocused()
     }
 }
