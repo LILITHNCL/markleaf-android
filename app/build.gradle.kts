@@ -81,6 +81,9 @@ android {
         // 게이트가 꺼진 빌드에서는 대상 클래스가 존재하지 않아 테스트가 컴파일될 수 없다.
         // CI는 이 스텝을 `-Pmarkleaf.updater=true`로 한 번 돌려 이 테스트들을 실행한다.
         sourceSets.getByName("test").java.srcDir("src/sideloadTest/java")
+        // Compose UI 테스트는 debug 매니페스트의 `ComponentActivity`가 필요해서 `src/testDebug`에만
+        // 둘 수 있다(`ComposeTestSourceSetTest`). 업데이터의 Compose 테스트도 같은 이유로 따로 둔다.
+        sourceSets.getByName("testDebug").java.srcDir("src/sideloadTestDebug/java")
     }
 
     // 두 디렉터리는 **서로 배타적**이며, 공통 UI가 부르는 `UpdateSurface` 하나를 같은 FQN으로
