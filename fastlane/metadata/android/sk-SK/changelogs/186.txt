@@ -1,0 +1,1 @@
+Novinka: tlačidlá úryvkov. V Nastavenia → Markdown pridajte až 10 tlačidiel do riadku nad klávesnicou; každé vloží váš Markdown na miesto kurzora. Napíšte {|} tam, kde má skončiť kurzor, takže [[{|}]] ho nechá medzi zátvorkami. Žiadne, kým nejaké nepridáte.

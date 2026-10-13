@@ -1,0 +1,1 @@
+Nuevo: botones de fragmentos. En Ajustes → Markdown puedes añadir hasta 10 botones a la fila sobre el teclado; cada uno inserta tu propio Markdown en el cursor. Escribe {|} donde debe quedar el cursor: [[{|}]] lo deja entre los corchetes. Ninguno hasta que añadas uno.

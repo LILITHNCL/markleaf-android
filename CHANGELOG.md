@@ -4,6 +4,18 @@ All notable changes to Markleaf are documented in this file. This English editio
 
 > 💬 **Questions or feedback?** Start a thread in [GitHub Discussions](https://github.com/jeiel85/markleaf-android/discussions). Bug reports still belong in [Issues](https://github.com/jeiel85/markleaf-android/issues).
 
+## v2.69.0 - Snippet buttons - 2026-10-13
+
+Your own insert buttons on the row above the keyboard, proposed in #424 and tracked in #436. No new permissions; notes are stored exactly as before.
+
+### Added
+- **Snippet buttons.** Settings → Markdown → Snippet buttons adds up to 10 buttons after `Aa` on the row above the keyboard. Each one inserts the Markdown you gave it where the cursor is. Write `{|}` where the cursor should land: `[[{|}]]` inserts `[[]]` with the cursor between the brackets, and without `{|}` the cursor goes to the end. A button shows the label you choose (up to 6 characters) or, left empty, the start of its snippet; TalkBack reads what it inserts. Reorder or delete them in the same place. There are none until you add one, so the row looks as it always has, and they appear whether or not "Show formatting button" is on. Settings search finds them under "snippet". Thanks to [@6r4f](https://github.com/6r4f) for the idea and the design worked out in #424. (#436)
+
+### Limits
+- The buttons show only while no text is selected, and a snippet replaces nothing: it doesn't wrap a selection.
+- Snippets aren't in the `/` menu and have no keyboard shortcut.
+- They are part of the app's settings, so they don't travel with exported notes or to another device.
+
 ## v2.68.0 - Search settings - 2026-10-13
 
 A follow-up to the section shortcuts from v2.66.0, asked for in Discussions #517. No permission or storage-format changes.

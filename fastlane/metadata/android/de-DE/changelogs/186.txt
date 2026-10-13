@@ -1,0 +1,1 @@
+Neu: Snippet-Schaltflächen. Unter Einstellungen → Markdown lassen sich bis zu 10 Schaltflächen in die Zeile über der Tastatur legen; jede fügt dein eigenes Markdown am Cursor ein. Schreib {|} dorthin, wo der Cursor landen soll – [[{|}]] lässt ihn zwischen den Klammern. Keine, bis du eine hinzufügst.

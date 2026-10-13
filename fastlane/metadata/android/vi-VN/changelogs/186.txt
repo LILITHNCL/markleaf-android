@@ -1,0 +1,1 @@
+Mới: nút đoạn mẫu. Trong Cài đặt → Markdown, thêm tối đa 10 nút vào hàng phía trên bàn phím; mỗi nút chèn Markdown của bạn vào vị trí con trỏ. Viết {|} ở chỗ con trỏ cần dừng, nên [[{|}]] để con trỏ giữa hai dấu ngoặc. Không có nút nào cho đến khi bạn thêm.
