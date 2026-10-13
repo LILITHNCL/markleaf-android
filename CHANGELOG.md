@@ -15,6 +15,9 @@ A follow-up to the section shortcuts from v2.66.0, asked for in Discussions #517
 - Search reads the words already on the page in your language; there are no extra keywords. A setting is found by what it says, not by every word you might call it.
 - The informational lines that aren't settings (the privacy statements, the version and app ID under App) are not results of their own; their section heading is.
 
+### Fixed
+- **Find in note keeps the keyboard where you left it.** Switching between Edit and Preview with Find open no longer flickers the keyboard, and coming back from Focus mode with Find open leaves the cursor in the note instead of moving it to the search field. (#262)
+
 ## v2.67.0 - Conflict copies get a banner, and fewer false ones - 2026-10-07
 
 A sync fix and a small addition, both from #434. No permission or storage-format changes.

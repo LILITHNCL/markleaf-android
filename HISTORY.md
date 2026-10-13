@@ -2,7 +2,8 @@
 
 - **Why.** Two items in #262 under v2.65.1, both from the independent review of #518. (1) `Crossfade` composes both branches during an Edit↔Preview switch, and the `LaunchedEffect(isPreviewMode)` that closes Find runs a frame later, so the incoming branch composed its own `FindBar` for that frame; since #518 a bar takes focus when it composes, so that frame could pull the keyboard to a field about to disappear. (2) Focus mode and the outline hide the bar while Find stays open, and on return the bar composed again and took the caret from the editor.
 - **How.** Each branch draws its bar only when `findOpenedInPreview` matches it, which also removes the one-frame flash of the other mode's bar. `FindBar` takes `focusOnShow` / `onFocusRequested`; `EditorScreen` sets `findFocusPending` when Find opens and the bar clears it once it has requested focus, so only the opening composition focuses the field.
-- **Tests.** `FindBarFocusTest` +1: with the editor focused, hiding and re-showing the bar leaves focus in the editor. It fails with the `focusOnShow` check removed. Part (1) is a one-frame race inside `Crossfade`, not covered by a unit test.
+- **Outline.** Codex review on #527 (P2): the outline replaces the whole editor body, so after it closes nothing held focus. Closing it with Back or the close button now sets `findFocusPending` again when Find is open, giving focus back to the search field. There is no editor caret to keep there, unlike in Focus mode. A heading jump still focuses the editor.
+- **Tests.** `FindBarFocusTest` +1: with the editor focused, hiding and re-showing the bar leaves focus in the editor. It fails with the `focusOnShow` check removed. `EditorFindOutlineFocusTest` (1): the search field is focused again after the outline closes. Part (1) is a one-frame race inside `Crossfade`, not covered by a unit test.
 
 ## 2026-10-10 — Settings search (#517, v2.68.0)
 

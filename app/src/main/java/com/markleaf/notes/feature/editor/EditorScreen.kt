@@ -1123,7 +1123,14 @@ fun EditorScreen(
 
     // The outline is a screen, not a sheet: it takes over the bar and the body
     // rather than floating above them, so a long one gets the full height (#215).
-    BackHandler(enabled = showOutline) { showOutline = false }
+    // The outline replaces the whole editor body, so whatever held focus is gone
+    // when it closes. With Find still open, its search field is the one to give
+    // it back to — unlike Focus mode, there is no caret in the editor to keep.
+    val dismissOutline = {
+        showOutline = false
+        if (isFindOpen) findFocusPending = true
+    }
+    BackHandler(enabled = showOutline) { dismissOutline() }
 
     // Where a tapped outline entry lands. In preview the rendered index is what
     // scrolls the list. While editing it has to move the caret instead —
@@ -1172,7 +1179,7 @@ fun EditorScreen(
     Scaffold(
         topBar = topBar@{
             if (showOutline) {
-                NoteOutlineTopBar(onClose = { showOutline = false })
+                NoteOutlineTopBar(onClose = dismissOutline)
                 return@topBar
             }
             EditorTopAppBar(

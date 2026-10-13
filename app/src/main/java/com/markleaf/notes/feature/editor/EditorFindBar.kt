@@ -45,10 +45,11 @@ internal fun FindBar(
      */
     showReplace: Boolean = true,
     /**
-     * Whether composing the bar should take focus. True only for the composition
-     * that opens Find: the bar also leaves and re-enters composition while Find
-     * stays open (Focus mode, the outline), and taking the caret from the editor
-     * on that return is a jump nobody asked for (#262).
+     * Whether composing the bar should take focus. True for the composition that
+     * opens Find, and again after the outline (which drops the whole editor body,
+     * focus included). Not after Focus mode: the bar leaves and re-enters
+     * composition there while the editor keeps its caret, and taking that caret
+     * on the return is a jump nobody asked for (#262).
      */
     focusOnShow: Boolean = true,
     onFocusRequested: () -> Unit = {},
