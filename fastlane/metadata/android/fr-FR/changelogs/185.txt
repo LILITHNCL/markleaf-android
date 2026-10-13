@@ -1,1 +1,3 @@
 Nouveau : les paramètres ont un bouton de recherche. Tapez le nom, la description ou une option d'un paramètre, puis touchez un résultat pour y aller directement ; le focus TalkBack suit. Les noms de section fonctionnent aussi.
+
+Corrigé : « Rechercher dans la note » ne déplace plus le clavier ni le curseur quand vous passez de l’édition à l’aperçu ou quittez le mode concentration.

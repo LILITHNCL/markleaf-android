@@ -4,7 +4,7 @@ All notable changes to Markleaf are documented in this file. This English editio
 
 > 💬 **Questions or feedback?** Start a thread in [GitHub Discussions](https://github.com/jeiel85/markleaf-android/discussions). Bug reports still belong in [Issues](https://github.com/jeiel85/markleaf-android/issues).
 
-## v2.68.0 - Search settings - 2026-10-10
+## v2.68.0 - Search settings - 2026-10-13
 
 A follow-up to the section shortcuts from v2.66.0, asked for in Discussions #517. No permission or storage-format changes.
 

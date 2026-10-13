@@ -1,1 +1,3 @@
 Mới: Cài đặt có nút tìm kiếm. Nhập tên, mô tả hoặc một lựa chọn của cài đặt rồi chạm vào kết quả để đến thẳng cài đặt đó; tiêu điểm TalkBack cũng chuyển theo. Tên mục cũng tìm được.
+
+Đã sửa: Tìm trong ghi chú không còn kéo bàn phím hay con trỏ đi chỗ khác khi chuyển giữa Sửa và Xem trước hoặc thoát Chế độ tập trung.
