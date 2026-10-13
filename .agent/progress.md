@@ -1,3 +1,8 @@
+## 2026-10-13 - v2.69.0: snippet buttons (#436)
+
+Selected task: the maintainer asked to build #436 directly from the design summary (Settings-only editing, `{|}` caret marker, text labels, 10 max with a scrolling row).
+Verification: 23 new tests plus a mutation check on the editor wiring, emulator check, full `testDebugUnitTest` + `lintRelease` locally. Gate results are in #531.
+
 ## 2026-10-10 - v2.68.0: settings search (#517)
 
 Selected task: the maintainer asked for settings search, the follow-up promised in Discussions #517 after v2.66.0's section shortcuts.

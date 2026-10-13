@@ -1,0 +1,1 @@
+Nouveau : boutons d'extraits. Dans Paramètres → Markdown, ajoutez jusqu'à 10 boutons sur la ligne au-dessus du clavier ; chacun insère votre propre Markdown au curseur. Écrivez {|} là où le curseur doit se placer : [[{|}]] le laisse entre les crochets. Aucun tant que vous n'en ajoutez pas.

@@ -8,6 +8,7 @@ import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,6 +17,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -39,6 +41,7 @@ import androidx.compose.material.icons.filled.Link
 import androidx.compose.material.icons.filled.MoreHoriz
 import androidx.compose.material.icons.filled.TableChart
 import androidx.compose.material.icons.filled.Title
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -46,6 +49,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.PlainTooltip
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TooltipBox
 import androidx.compose.material3.TooltipDefaults
 import androidx.compose.material3.rememberTooltipState
@@ -77,6 +81,7 @@ import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.markleaf.notes.R
+import com.markleaf.notes.data.settings.SnippetButton
 
 /**
  * The row above the keyboard. It started as the formatting controls and now
@@ -88,6 +93,10 @@ import com.markleaf.notes.R
  * it off and nothing selected the `Aa` handle goes, but the row can still be
  * mounted for undo alone — an editor that autosaves has to keep a way back
  * reachable.
+ *
+ * [snippets] are the user's own insert buttons after `Aa` (#436). They show
+ * only while nothing is selected — a selection swaps the row for the selection
+ * actions — and the caller passes none while something else owns the row.
  */
 internal data class EditorFormattingUiState(
     val selectionActive: Boolean = false,
@@ -95,7 +104,8 @@ internal data class EditorFormattingUiState(
     val enabled: Boolean = true,
     val canUndo: Boolean = false,
     val canRedo: Boolean = false,
-    val showFormattingEntry: Boolean = true
+    val showFormattingEntry: Boolean = true,
+    val snippets: List<SnippetButton> = emptyList()
 )
 
 private data class FormattingItem(
@@ -136,7 +146,8 @@ internal fun EditorFormattingControls(
     backgroundColor: Color,
     modifier: Modifier = Modifier,
     onUndo: () -> Unit = {},
-    onRedo: () -> Unit = {}
+    onRedo: () -> Unit = {},
+    onSnippet: (SnippetButton) -> Unit = {}
 ) {
     val triggerFocusRequester = remember { FocusRequester() }
     val firstActionFocusRequester = remember { FocusRequester() }
@@ -212,6 +223,10 @@ internal fun EditorFormattingControls(
                         onExpandedChange(true)
                     },
                     onExpandedChange = onExpandedChange,
+                    onSnippet = { snippet ->
+                        if (state.expanded) onExpandedChange(false)
+                        onSnippet(snippet)
+                    },
                     undoActions = {
                         UndoActions(state = state, onUndo = onUndo, onRedo = onRedo)
                     }
@@ -228,6 +243,7 @@ private fun FormattingEntryRow(
     triggerFocusRequester: FocusRequester,
     onKeyboardOpen: () -> Unit,
     onExpandedChange: (Boolean) -> Unit,
+    onSnippet: (SnippetButton) -> Unit,
     undoActions: @Composable () -> Unit
 ) {
     val label = stringResource(R.string.formatting)
@@ -271,6 +287,59 @@ private fun FormattingEntryRow(
                     }
                 }
             }
+        }
+        if (state.snippets.isNotEmpty()) {
+            // The snippets scroll among themselves so undo, redo and `Aa` stay
+            // put however many there are — the same reason undo disables
+            // rather than disappears.
+            Row(
+                modifier = Modifier
+                    .weight(1f)
+                    .horizontalScroll(rememberScrollState()),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                state.snippets.forEach { snippet ->
+                    SnippetRowButton(
+                        snippet = snippet,
+                        enabled = state.enabled,
+                        onClick = { onSnippet(snippet) }
+                    )
+                }
+            }
+        }
+    }
+}
+
+/**
+ * One of the user's snippet buttons (#436). The label is whatever they chose,
+ * often punctuation like `[[`, so TalkBack and the tooltip say what it inserts
+ * instead.
+ */
+@Composable
+private fun SnippetRowButton(
+    snippet: SnippetButton,
+    enabled: Boolean,
+    onClick: () -> Unit
+) {
+    val description = stringResource(R.string.snippet_button_insert, snippet.preview)
+    FormattingTooltip(label = snippet.preview) {
+        TextButton(
+            onClick = onClick,
+            enabled = enabled,
+            modifier = Modifier
+                .heightIn(min = 48.dp)
+                .widthIn(min = 48.dp)
+                .semantics { contentDescription = description },
+            contentPadding = PaddingValues(horizontal = 10.dp),
+            colors = ButtonDefaults.textButtonColors(
+                contentColor = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        ) {
+            Text(
+                text = snippet.displayLabel,
+                style = MaterialTheme.typography.titleSmall,
+                maxLines = 1
+            )
         }
     }
 }

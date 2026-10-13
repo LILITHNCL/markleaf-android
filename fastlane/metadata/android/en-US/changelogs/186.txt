@@ -1,0 +1,1 @@
+New: snippet buttons. In Settings → Markdown, add up to 10 buttons to the row above the keyboard; each inserts your own Markdown at the cursor. Write {|} where the cursor should land, so [[{|}]] leaves it between the brackets. None until you add one.

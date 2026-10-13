@@ -1902,3 +1902,36 @@ Implications:
   tracker. The structural cure is an editor path that does not depend on the origin at all.
 - `StateRestorationTester` does nothing while `mainClock.autoAdvance` is false: its dispose-then-restore
   needs a frame between the two steps. A restoration test on a paused clock passes vacuously.
+
+### D085 - Snippet Buttons Store Their Text As Typed, With `{|}` Marking The Caret
+
+Date: 2026-10-13. Issue: #436.
+
+Decision:
+- A snippet button is `SnippetButton(label, text)`. The list is one DataStore string,
+  `snippet_buttons`, holding a JSON array of `{"label", "text"}` in row order (`SnippetButtonsCodec`).
+  An empty list removes the key. At most 10 buttons, labels up to 6 code points, text up to 2000 chars.
+- The caret position is written into the snippet as the literal token `{|}`. The text is stored with the
+  token in it and resolved only at insertion (`insertedText`, `caretOffset`). One token at most; none
+  means the caret goes to the end. Settings refuses to save a snippet with two.
+- Snippets are edited only in Settings → Markdown. They show on the entry row after `Aa`, scroll among
+  themselves, and are absent while text is selected or another control owns the row (find bar,
+  autocomplete). They do not depend on "Show formatting button".
+
+Why:
+- The token is the one part users type, so it is the part that can't change after release without
+  breaking their snippets. `{|}` reads as a caret, needs no translation, and has no meaning in Markdown;
+  a bare `|` collides with tables, and words like `$CURSOR` would need translating or look like code.
+- Storing the token rather than an offset keeps the text editable as written: an offset beside the text
+  would go stale the moment the text is edited.
+- JSON because a snippet is free text, so any separator could appear inside it. `org.json` is already
+  used by `SidecarIndex`; no new dependency.
+- Editing on the row itself was the alternative. A `+` there adds chrome for everyone who never uses
+  snippets, and long-press on the row already shows tooltips. Settings search (v2.68.0) finds the setting
+  by name, which answers the discoverability concern.
+
+Implications:
+- Settings are not part of note export or backup, so snippets don't travel with exported notes.
+- Snippets are not offered in the `/` menu or bound to keys. Both are possible later without touching
+  the stored format.
+- A damaged stored value reads as no snippets; the next change in Settings writes a clean list.

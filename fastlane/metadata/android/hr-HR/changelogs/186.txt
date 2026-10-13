@@ -1,0 +1,1 @@
+Novo: gumbi isječaka. U Postavke → Markdown dodajte do 10 gumba u redak iznad tipkovnice; svaki umeće vaš Markdown na mjesto pokazivača. Napišite {|} ondje gdje pokazivač treba stati, pa [[{|}]] ostavlja pokazivač između zagrada. Nema ih dok ne dodate jedan.

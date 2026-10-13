@@ -48,6 +48,9 @@ data class AppSettings(
      *  that appear *while text is selected* are unaffected, because selecting
      *  is how you ask for them (#331). */
     val showFormattingButton: Boolean = true,
+    /** The user's own insert buttons on that row, in order. Empty by default,
+     *  which leaves the row exactly as it was (#436). */
+    val snippetButtons: List<SnippetButton> = emptyList(),
     /** Reopen the last-edited note on a plain launch instead of landing on the
      *  notes list. Opt-in (#192). */
     val reopenLastNote: Boolean = false,

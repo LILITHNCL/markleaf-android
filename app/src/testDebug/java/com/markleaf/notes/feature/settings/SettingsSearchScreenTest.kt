@@ -106,6 +106,20 @@ class SettingsSearchScreenTest {
         assertEquals(pageTop, heading.top(), 1f)
     }
 
+    /** Snippet buttons are edited only here, so search is how they're found (#436). */
+    @Test
+    fun snippetButtonsAreFoundByName() {
+        val pageTop = showSettings()
+        search("snippet")
+
+        result("Snippet buttons").performClick()
+        composeRule.waitForIdle()
+
+        val setting = composeRule.onNode(hasText("Snippet buttons") and !hasClickAction())
+        setting.assertIsFocused()
+        assertEquals(pageTop, setting.top(), 1f)
+    }
+
     @Test
     fun aQueryWithNoMatchSaysSo() {
         showSettings()

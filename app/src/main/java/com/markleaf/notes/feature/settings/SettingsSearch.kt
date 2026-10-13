@@ -35,6 +35,7 @@ internal enum class SettingsItem(
     ),
     MARKDOWN_SYNTAX(SettingsShortcut.MARKDOWN, R.string.show_markdown_syntax, R.string.show_markdown_syntax_description),
     FORMATTING_BUTTON(SettingsShortcut.MARKDOWN, R.string.show_formatting_button, R.string.show_formatting_button_description),
+    SNIPPET_BUTTONS(SettingsShortcut.MARKDOWN, R.string.snippet_buttons_label, R.string.snippet_buttons_description),
     LINE_WIDTH(
         SettingsShortcut.MARKDOWN, R.string.line_width, R.string.line_width_description,
         listOf(R.string.line_width_narrow, R.string.line_width_comfortable, R.string.line_width_wide)
