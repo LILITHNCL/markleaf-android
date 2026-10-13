@@ -361,6 +361,12 @@ fun NotesListScreen(
                     onClick = onConflictCopiesClick,
                     modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp)
                 )
+                // 사이드로드 빌드에서 새 버전이 있을 때만 한 줄이 생긴다. 스토어 빌드가 얻는
+                // 구현은 아무것도 그리지 않는 스텁이다(D074, docs/AGENT_SPEC.md §15.9).
+                // 위 배너와 같은 이유로 목록 밖에 둔다: 확인 결과는 목록이 그려진 뒤에
+                // 오고, 그 전까지 높이가 0인 첫 항목은 목록이 화면 밖으로 셈해 버려서
+                // 나중에 생긴 배너가 뷰포트 위에 숨었다(#262).
+                UpdateSurface.Banner(Modifier.padding(horizontal = 12.dp, vertical = 4.dp))
             }
         },
         floatingActionButton = {
@@ -499,11 +505,6 @@ fun NotesListScreen(
                         .fillMaxSize()
                         .padding(paddingValues)
                 ) {
-                    // 사이드로드 빌드에서 새 버전이 있을 때만 한 줄이 생긴다. 스토어 빌드가 얻는
-                    // 구현은 아무것도 그리지 않는 스텁이다(D074, docs/AGENT_SPEC.md §15.9).
-                    item(key = "update-banner") {
-                        UpdateSurface.Banner(Modifier.padding(horizontal = 12.dp, vertical = 4.dp))
-                    }
                     sections.forEach { section ->
                         if (section.titleResId != null) {
                             item(key = "header-${section.titleResId}") {
@@ -542,9 +543,6 @@ fun NotesListScreen(
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    item(key = "update-banner", span = { GridItemSpan(maxLineSpan) }) {
-                        UpdateSurface.Banner(Modifier.padding(vertical = 4.dp))
-                    }
                     sections.forEach { section ->
                         if (section.titleResId != null) {
                             item(

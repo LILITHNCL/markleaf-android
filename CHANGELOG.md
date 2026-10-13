@@ -17,6 +17,7 @@ A follow-up to the section shortcuts from v2.66.0, asked for in Discussions #517
 
 ### Fixed
 - **Find in note keeps the keyboard where you left it.** Switching between Edit and Preview with Find open no longer flickers the keyboard, and coming back from Focus mode with Find open leaves the cursor in the note instead of moving it to the search field. (#262)
+- **The update banner in the GitHub (sideload) build shows up at the top of the note list.** In the list layout it landed above the visible part of the list and only appeared if you scrolled up. It now sits under the app bar, like the conflict-copies banner. Store builds have no such banner. (#262)
 
 ## v2.67.0 - Conflict copies get a banner, and fewer false ones - 2026-10-07
 
