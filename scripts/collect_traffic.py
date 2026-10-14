@@ -13,7 +13,7 @@ Files written to <data-dir>:
   views.csv, clones.csv   date,count,uniques       one row per day, merged by date
   referrers.csv, paths.csv snapshot rows            the API only gives 14-day totals,
                                                     so each run appends that day's list
-  repo.csv                date,stars,forks,watchers,open_issues
+  repo.csv                date,stars,forks,watchers,open_issues,open_prs
 """
 
 import csv
@@ -106,6 +106,10 @@ def main():
     )
 
     info = get(base, token)
+    # The repository's open_issues_count also counts open pull requests, so the
+    # two are counted separately through search.
+    open_issues = get(f"/search/issues?q=repo:{repo}+is:issue+is:open&per_page=1", token)["total_count"]
+    open_prs = get(f"/search/issues?q=repo:{repo}+is:pr+is:open&per_page=1", token)["total_count"]
     repo_path = os.path.join(data_dir, "repo.csv")
     rows = [row for row in read_rows(repo_path) if row["date"] != today]
     rows.append(
@@ -114,10 +118,11 @@ def main():
             "stars": info["stargazers_count"],
             "forks": info["forks_count"],
             "watchers": info["subscribers_count"],
-            "open_issues": info["open_issues_count"],
+            "open_issues": open_issues,
+            "open_prs": open_prs,
         }
     )
-    write_rows(repo_path, ["date", "stars", "forks", "watchers", "open_issues"], rows)
+    write_rows(repo_path, ["date", "stars", "forks", "watchers", "open_issues", "open_prs"], rows)
 
 
 if __name__ == "__main__":
