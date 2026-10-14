@@ -107,9 +107,17 @@ def main():
 
     info = get(base, token)
     # The repository's open_issues_count also counts open pull requests, so the
-    # two are counted separately through search.
-    open_issues = get(f"/search/issues?q=repo:{repo}+is:issue+is:open&per_page=1", token)["total_count"]
-    open_prs = get(f"/search/issues?q=repo:{repo}+is:pr+is:open&per_page=1", token)["total_count"]
+    # open pull requests are listed and subtracted. (Search was tried first and
+    # returned HTTP 500 on the first scheduled run.)
+    open_prs = 0
+    page = 1
+    while True:
+        pulls = get(f"{base}/pulls?state=open&per_page=100&page={page}", token)
+        open_prs += len(pulls)
+        if len(pulls) < 100:
+            break
+        page += 1
+    open_issues = info["open_issues_count"] - open_prs
     repo_path = os.path.join(data_dir, "repo.csv")
     rows = [row for row in read_rows(repo_path) if row["date"] != today]
     rows.append(
