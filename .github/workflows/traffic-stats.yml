@@ -46,8 +46,10 @@ jobs:
           git init -q data
           cd data
           git remote add origin "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git"
-          if git ls-remote --exit-code --heads origin traffic-stats >/dev/null; then
-            git fetch -q --depth=1 origin traffic-stats
+          # 전체 ref로 비교한다. ls-remote 패턴은 꼬리 일치라 `traffic-stats`만 주면
+          # `chore/traffic-stats` 같은 다른 브랜치도 맞는다(첫 실행이 그렇게 실패했다).
+          if git ls-remote --exit-code origin refs/heads/traffic-stats >/dev/null; then
+            git fetch -q --depth=1 origin refs/heads/traffic-stats
             git checkout -q -b traffic-stats FETCH_HEAD
           else
             # 첫 실행: 이력 없는 브랜치로 시작한다.
