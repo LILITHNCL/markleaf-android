@@ -20,6 +20,8 @@
   <img src="https://img.shields.io/badge/License-Apache%202.0-D22128" alt="License" />
   <img src="https://img.shields.io/badge/F--Droid-Available-1976D2?logo=fdroid&logoColor=white" alt="F-Droid" />
   <img src="https://img.shields.io/badge/Google%20Play-Updates%20paused-9E9E9E?logo=googleplay&logoColor=white" alt="Google Play" />
+  <a href="https://github.com/jeiel85/markleaf-android/stargazers"><img src="https://img.shields.io/github/stars/jeiel85/markleaf-android?style=flat&logo=github&label=Stars" alt="GitHub stars" /></a>
+  <a href="https://github.com/jeiel85/markleaf-android/forks"><img src="https://img.shields.io/github/forks/jeiel85/markleaf-android?style=flat&logo=github&label=Forks" alt="GitHub forks" /></a>
 </p>
 
 <p align="center">

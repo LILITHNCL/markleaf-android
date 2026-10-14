@@ -1,0 +1,72 @@
+# 저장소 트래픽 기록.
+#
+# GitHub는 조회수·클론·유입 경로를 14일만 보관한다. 2026-09-14 주에 외부 이슈가
+# 14건 몰렸지만 10월에는 그 무렵의 유입 경로를 이미 볼 수 없었다. 이 잡이 매일
+# 그 14일 창을 `traffic-stats` 브랜치의 CSV에 합쳐 기록을 남긴다
+# (scripts/collect_traffic.py 헤더에 파일 형식이 있다).
+#
+# README에는 싣지 않는다 — 기록 용도다. 다만 공개 저장소의 브랜치이므로 누구나 읽을
+# 수 있다(트래픽은 집계값이라 개인 정보는 없다).
+#
+# main은 보호되어 있어(PR 필수) 매일 커밋할 수 없으므로 별도 고아 브랜치에 쓴다.
+# 그 브랜치 푸시는 android-build·mirror-push 트리거(main·태그) 밖이라 CI를 돌리지 않는다.
+#
+# 필요한 시크릿: TRAFFIC_TOKEN — 이 저장소에 대해 Administration: Read-only 권한을 준
+# fine-grained PAT. GITHUB_TOKEN으로는 traffic API를 읽을 수 없다. 만료되면 이 잡이
+# 빨갛게 실패하므로 그때 재발급한다.
+
+name: Traffic stats
+
+on:
+  schedule:
+    # 매일 05:41 UTC. 정시(:00)는 러너가 붐벼 지연되므로 피한다.
+    - cron: "41 5 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: traffic-stats
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    name: Record traffic
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out collector script
+        uses: actions/checkout@v5
+        with:
+          path: src
+
+      - name: Check out data branch
+        run: |
+          git init -q data
+          cd data
+          git remote add origin "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git"
+          if git ls-remote --exit-code --heads origin traffic-stats >/dev/null; then
+            git fetch -q --depth=1 origin traffic-stats
+            git checkout -q -b traffic-stats FETCH_HEAD
+          else
+            # 첫 실행: 이력 없는 브랜치로 시작한다.
+            git checkout -q --orphan traffic-stats
+          fi
+
+      - name: Collect traffic
+        env:
+          TRAFFIC_TOKEN: ${{ secrets.TRAFFIC_TOKEN }}
+        run: python3 src/scripts/collect_traffic.py data
+
+      - name: Commit and push
+        working-directory: data
+        run: |
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No change."
+            exit 0
+          fi
+          git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+            commit -q -m "chore: record traffic for $(date -u +%F)"
+          git push -q origin traffic-stats
