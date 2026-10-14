@@ -1,3 +1,9 @@
+## 2026-10-14 — One release announcement a week, and old ones closed
+
+- **Why.** One Discussions announcement per release had piled up 31 posts in 90 days. They made up 31 of the 40 discussions on the tab, and the Ideas and Q&A threads from users sat underneath them. The operating plan adopted on 2026-10-14 already batches announcements weekly, but AGENTS.md step 5 still said to post one per release.
+- **Cleanup.** 31 release announcements (v2.37.5 through v2.68.0, plus "100 stars") were closed with reason Outdated. Nothing was deleted. Closed posts drop out of the default `is:open` list, and their links and comments stay. The comment threads on #521, #517 and #385 were read first, and all of them had been answered. #206 (welcome), #532 (v2.69.0) and #420 (API 36 notice, still upcoming at `targetSdk = 35`) stay open. Open discussions went from 40 to 9.
+- **Rule.** AGENTS.md step 5 now allows one announcement per KST week. A release later in the same week, such as a hotfix, is added as a comment on that week's post. After the first post of a new week, every open Announcements post whose title starts with `Markleaf v` is closed as Outdated, so #206 and "Upcoming:" notices are not touched. The selection query was dry-run against the live repo and returned only #532.
+
 ## 2026-10-13 — Snippet buttons on the row above the keyboard (#436)
 
 - **Why.** #436 was split out of #424, where @6r4f, building a knowledge base with ten or more wikilinks per note, asked for one-press insert buttons in the empty part of the formatting row and worked through most of the design. The maintainer asked for it to be built directly from the design summary, without waiting for further input on the thread.

@@ -138,7 +138,7 @@ Android 프로젝트가 아직 초기화되지 않았다면 먼저 표준 Kotlin
 **릴리스는 무엇이 시작했든 Discussions 공지로 끝난다.** 이슈 대응이든, 위처럼 직접
 "새 버전 만들기"를 받았든, 문서만 바뀐 릴리스든 마찬가지다 — 태그 런이 녹색이면
 [GitHub 이슈 대응](#github-이슈-대응)의 **5단계 공지**를 그대로 진행한다. 카테고리 ID와
-본문에 담을 것은 그 단계에 적혀 있다. 공지만 그 플로 안에 살고 있어서, 이슈에서 출발하지 않은
+본문에 담을 것, 그리고 주 1건으로 묶고 지난 공지를 닫는 규칙은 그 단계에 적혀 있다. 공지만 그 플로 안에 살고 있어서, 이슈에서 출발하지 않은
 릴리스가 조용히 빠지는 일을 막기 위해 여기에도 적는다.
 
 ```bash
@@ -260,6 +260,28 @@ GitLab CI용 산출물은 `-Pmarkleaf.releaseExportDir=<dir>`와 함께
    `cat=DIC_kwDOSPZMR84DBtQR`가 Announcements다. **공지 고정(pin)은 웹 UI 전용**이라 API로
    못 한다 — 고정이 필요하면 보고에 적어 메인테이너가 누르게 한다. 첫 사례는
    v2.37.5의 [#379](https://github.com/jeiel85/markleaf-android/discussions/379)이다.
+
+   **공지는 주 1건이다.** 릴리스마다 새 글을 올리던 시절에는 90일에 공지가 31건 쌓여
+   Discussions 탭이 공지로 뒤덮였고, 사용자 글(Ideas·Q&A)이 그 아래로 묻혔다
+   (2026-10-14 정리). 그래서:
+
+   - 그 주(월~일, KST)에 연 릴리스 공지가 이미 있으면 새 글을 만들지 않고 **그 공지에
+     댓글로** 이번 버전을 덧붙인다 — 주중 핫픽스가 이 경우다. 제목은 바꾸지 않는다.
+   - 새 주의 첫 공지를 올렸으면 **지난 릴리스 공지를 전부 Outdated로 닫는다.** 닫힌
+     글은 기본 목록(`is:open`)에서 빠질 뿐 링크·댓글은 남고 다시 열 수 있다. 삭제는 하지
+     않는다. 대상은 제목이 `Markleaf v`로 시작하는 Announcements뿐이라, 환영글 #206과
+     아직 유효한 예고(예: #420 "Upcoming: …")는 걸리지 않는다 — 예고는 그 일이 끝나면
+     손으로 닫는다.
+   - 닫기 전에 댓글에 답하지 않은 질문이 남았는지 본다. 남았으면 답한 뒤 닫는다.
+
+   ```bash
+   NEW=<방금 올린 공지 번호>
+   gh api graphql -f query='{ repository(owner:"jeiel85",name:"markleaf-android"){ discussions(first:100,states:OPEN,categoryId:"DIC_kwDOSPZMR84DBtQR"){ nodes{ id number title } } } }' \
+     --jq ".data.repository.discussions.nodes[] | select(.title|startswith(\"Markleaf v\")) | select(.number!=$NEW) | .id" |
+   while read -r id; do
+     gh api graphql -f query='mutation($id:ID!){ closeDiscussion(input:{discussionId:$id,reason:OUTDATED}){ discussion{ number } } }' -f id="$id" --jq '.data.closeDiscussion.discussion.number'
+   done
+   ```
 
 6. **마감 + 보고.** 해결된 이슈에 감사 댓글을 달고 닫되, 사용자측 확인이 남으면 열어 둔다.
    굵직한 변경이면 README·랜딩 페이지의 버전 표기를 11개 언어 모두 갱신하고
