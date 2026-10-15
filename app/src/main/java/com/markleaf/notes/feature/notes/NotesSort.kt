@@ -15,6 +15,8 @@ internal fun sortNotesForDisplay(notes: List<Note>, mode: NotesSortMode): List<N
     val comparator = when (mode) {
         NotesSortMode.UPDATED_DESC -> compareByDescending<Note> { it.updatedAt }
         NotesSortMode.UPDATED_ASC -> compareBy<Note> { it.updatedAt }
+        NotesSortMode.CREATED_DESC -> compareByDescending<Note> { it.createdAt }
+        NotesSortMode.CREATED_ASC -> compareBy<Note> { it.createdAt }
         NotesSortMode.TITLE_ASC -> compareBy(String.CASE_INSENSITIVE_ORDER) { it.title }
         NotesSortMode.TITLE_DESC ->
             compareByDescending(String.CASE_INSENSITIVE_ORDER) { it.title }

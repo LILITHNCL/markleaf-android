@@ -1,0 +1,1 @@
+New: sort your notes by creation date. The sort menu now has Newest created first and Oldest created first, ordered by when a note was first made, so editing an old note never moves it.

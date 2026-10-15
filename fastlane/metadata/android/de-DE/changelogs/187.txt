@@ -1,0 +1,1 @@
+Neu: Notizen nach Erstellungsdatum sortieren. Das Sortiermenü bietet jetzt „Neueste Erstellung zuerst“ und „Älteste Erstellung zuerst“. Maßgeblich ist, wann eine Notiz angelegt wurde – Bearbeiten verschiebt sie nicht.

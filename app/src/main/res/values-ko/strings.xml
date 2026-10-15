@@ -171,6 +171,8 @@
     <string name="sort_updated_oldest">오래된 수정순</string>
     <string name="sort_title_az">제목 오름차순</string>
     <string name="sort_title_za">제목 내림차순</string>
+    <string name="sort_created_newest">최근 생성순</string>
+    <string name="sort_created_oldest">오래된 생성순</string>
     <string name="tag_result_format">#%1$s</string>
     <string name="no_tags_yet">아직 태그가 없습니다</string>
     <string name="tags_empty_hint">노트에 #태그를 입력해 정리해보세요</string>

@@ -194,6 +194,8 @@
     <string name="sort_updated_oldest">Сначала давно изменённые</string>
     <string name="sort_title_az">Название от А до Я</string>
     <string name="sort_title_za">Название от Я до А</string>
+    <string name="sort_created_newest">Сначала недавно созданные</string>
+    <string name="sort_created_oldest">Сначала давно созданные</string>
     <string name="tag_result_format">#%1$s</string>
     <string name="no_tags_yet">Тегов пока нет</string>
     <string name="tags_empty_hint">Напишите #тег в заметке, чтобы упорядочить её</string>

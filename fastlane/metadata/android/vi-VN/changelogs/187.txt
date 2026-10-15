@@ -1,0 +1,1 @@
+Mới: sắp xếp ghi chú theo ngày tạo. Menu sắp xếp có thêm "Tạo mới nhất trước" và "Tạo lâu nhất trước"; sửa ghi chú cũ không làm đổi vị trí của nó.

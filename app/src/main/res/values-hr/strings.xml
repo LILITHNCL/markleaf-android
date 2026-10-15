@@ -189,6 +189,8 @@
     <string name="sort_updated_oldest">Prvo najstarije uređene</string>
     <string name="sort_title_az">Naslov od A do Z</string>
     <string name="sort_title_za">Naslov od Z do A</string>
+    <string name="sort_created_newest">Prvo najnovije stvorene</string>
+    <string name="sort_created_oldest">Prvo najstarije stvorene</string>
     <string name="tag_result_format">#%1$s</string>
     <string name="no_tags_yet">Još nema oznaki</string>
     <string name="tags_empty_hint">Upišite #oznake u bilješkama da biste ih organizirali</string>

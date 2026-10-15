@@ -1,3 +1,9 @@
+## 2026-10-15 — Sort the notes list by creation date (#537)
+
+- **Why.** @PriscillaOvO, who keeps journal-style notes, asked to browse chronologically without edits moving old notes, which happens under the edit-time sorts.
+- **How.** `NotesSortMode` gains `CREATED_DESC` and `CREATED_ASC`; `sortNotesForDisplay` orders by `Note.createdAt` with pinned notes still first, and `groupNotesForDisplay` already renders every non-default mode as a flat list. Menu labels are `sort_created_newest` / `sort_created_oldest` in all 11 locales. The default stays newest edits first. List rows still show the edited time. Released as v2.70.0 (vc187).
+- **Tests.** `NotesSortTest.createdOrdersIgnoreLaterEdits`: the note created first but edited last sorts first in `CREATED_ASC` and last in `CREATED_DESC`. Local `testDebugUnitTest` + `lintRelease` pass (one combined first run reported BUILD FAILED, cause not captured; the rerun passed); CI `build` and `instrumented-tests` pass on #538.
+
 ## 2026-10-14 — One release announcement a week, and old ones closed
 
 - **Why.** One Discussions announcement per release had piled up 31 posts in 90 days. They made up 31 of the 40 discussions on the tab, and the Ideas and Q&A threads from users sat underneath them. The operating plan adopted on 2026-10-14 already batches announcements weekly, but AGENTS.md step 5 still said to post one per release.

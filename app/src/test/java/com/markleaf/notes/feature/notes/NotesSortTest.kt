@@ -39,6 +39,25 @@ class NotesSortTest {
         assertEquals(listOf("apple", "cherry", "banana"), sorted.map { it.id })
     }
 
+    // Created order must ignore later edits (#537): "old" was created first but edited last.
+    private fun createdAndEdited(id: String, created: Long, edited: Long) = note(id, id, edited)
+        .copy(createdAt = Instant.ofEpochMilli(created))
+
+    @Test
+    fun createdOrdersIgnoreLaterEdits() {
+        val old = createdAndEdited("old", created = 1_000, edited = 9_000)
+        val mid = createdAndEdited("mid", created = 2_000, edited = 3_000)
+        val new = createdAndEdited("new", created = 3_000, edited = 4_000)
+        assertEquals(
+            listOf("new", "mid", "old"),
+            sortNotesForDisplay(listOf(old, mid, new), NotesSortMode.CREATED_DESC).map { it.id }
+        )
+        assertEquals(
+            listOf("old", "mid", "new"),
+            sortNotesForDisplay(listOf(new, old, mid), NotesSortMode.CREATED_ASC).map { it.id }
+        )
+    }
+
     @Test
     fun titleAscIsCaseInsensitive() {
         val sorted = sortNotesForDisplay(listOf(cherry, banana, apple), NotesSortMode.TITLE_ASC)

@@ -172,6 +172,8 @@
     <string name="sort_updated_oldest">Sửa lâu nhất trước</string>
     <string name="sort_title_az">Tiêu đề từ A đến Z</string>
     <string name="sort_title_za">Tiêu đề từ Z đến A</string>
+    <string name="sort_created_newest">Tạo mới nhất trước</string>
+    <string name="sort_created_oldest">Tạo lâu nhất trước</string>
     <string name="tag_result_format">#%1$s</string>
     <string name="no_tags_yet">Chưa có thẻ nào</string>
     <string name="tags_empty_hint">Gõ #thẻ trong ghi chú để sắp xếp</string>

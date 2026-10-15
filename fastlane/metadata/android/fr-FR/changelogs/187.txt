@@ -1,0 +1,1 @@
+Nouveau : tri par date de création. Le menu de tri propose « Créations récentes d'abord » et « Créations anciennes d'abord », selon la date de création de la note ; la modifier ne la déplace pas.
