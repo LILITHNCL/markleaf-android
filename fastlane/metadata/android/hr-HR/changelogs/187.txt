@@ -1,0 +1,1 @@
+Novo: sortiranje bilježaka po datumu stvaranja. Izbornik sortiranja sada ima „Prvo najnovije stvorene“ i „Prvo najstarije stvorene“; uređivanje stare bilješke ne mijenja njezin položaj.

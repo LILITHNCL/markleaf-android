@@ -2914,3 +2914,8 @@ Verification:
 - `./gradlew test`(전 variant) + `lintRelease` 통과. v2.46.2 / versionCode 153.
 
 ---
+
+## 2026-10-15 - v2.70.0: sort by creation date (#537)
+
+Selected task: open issue #537 (Newest/Oldest created first in the sort menu). Added CREATED_DESC/CREATED_ASC, 11-locale strings, unit test that edits do not reorder.
+Verification: `testDebugUnitTest` + `lintRelease` locally.

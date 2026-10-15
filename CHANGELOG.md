@@ -4,6 +4,17 @@ All notable changes to Markleaf are documented in this file. This English editio
 
 > 💬 **Questions or feedback?** Start a thread in [GitHub Discussions](https://github.com/jeiel85/markleaf-android/discussions). Bug reports still belong in [Issues](https://github.com/jeiel85/markleaf-android/issues).
 
+## v2.70.0 - Sort by creation date - 2026-10-15
+
+Sort the notes list by when a note was first created, requested in #537. No new permissions; notes are stored exactly as before.
+
+### Added
+- **Sort by creation date.** The sort menu in the notes list now has **Newest created first** and **Oldest created first**. They use each note's original creation time, so editing an old note never moves it, which suits journals and other chronological notes. Pinned notes still stay on top, and like the other non-default sorts the list is flat, without Today/Yesterday sections. The default is unchanged (newest edits first). Thanks to [@PriscillaOvO](https://github.com/PriscillaOvO) for the request. (#537)
+
+### Limits
+- The list rows still show the last-edited time, not the creation time.
+- Notes imported from a folder keep the creation time Markleaf recorded for them, which is not necessarily the file's own creation date.
+
 ## v2.69.0 - Snippet buttons - 2026-10-13
 
 Your own insert buttons on the row above the keyboard, proposed in #424 and tracked in #436. No new permissions; notes are stored exactly as before.

@@ -1,0 +1,1 @@
+Novinka: zoradenie poznámok podľa dátumu vytvorenia. Ponuka zoradenia obsahuje „Najnovšie vytvorené ako prvé“ a „Najstaršie vytvorené ako prvé“; úprava starej poznámky ju nepresunie.

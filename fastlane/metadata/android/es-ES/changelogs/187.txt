@@ -1,0 +1,1 @@
+Novedad: ordenar notas por fecha de creación. El menú de orden incluye «Creadas más recientes primero» y «Creadas más antiguas primero»; editar una nota antigua no la mueve.
