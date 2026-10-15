@@ -175,6 +175,8 @@
     <string name="sort_updated_oldest">Älteste Bearbeitung zuerst</string>
     <string name="sort_title_az">Titel A bis Z</string>
     <string name="sort_title_za">Titel Z bis A</string>
+    <string name="sort_created_newest">Neueste Erstellung zuerst</string>
+    <string name="sort_created_oldest">Älteste Erstellung zuerst</string>
     <string name="tag_result_format">#%1$s</string>
     <string name="no_tags_yet">Noch keine Tags</string>
     <string name="tags_empty_hint">Tippe #Tags in eine Notiz, um sie zu organisieren</string>

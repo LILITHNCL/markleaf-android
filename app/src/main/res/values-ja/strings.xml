@@ -171,6 +171,8 @@
     <string name="sort_updated_oldest">古い編集順</string>
     <string name="sort_title_az">タイトル昇順</string>
     <string name="sort_title_za">タイトル降順</string>
+    <string name="sort_created_newest">新しい作成順</string>
+    <string name="sort_created_oldest">古い作成順</string>
     <string name="tag_result_format">#%1$s</string>
     <string name="no_tags_yet">タグがまだありません</string>
     <string name="tags_empty_hint">ノートに #タグ を入力して整理しましょう</string>

@@ -175,6 +175,8 @@
     <string name="sort_updated_oldest">Ediciones más antiguas primero</string>
     <string name="sort_title_az">Título de A a Z</string>
     <string name="sort_title_za">Título de Z a A</string>
+    <string name="sort_created_newest">Creadas más recientes primero</string>
+    <string name="sort_created_oldest">Creadas más antiguas primero</string>
     <string name="tag_result_format">#%1$s</string>
     <string name="no_tags_yet">Aún no hay etiquetas</string>
     <string name="tags_empty_hint">Escribe #etiquetas en una nota para organizarla</string>

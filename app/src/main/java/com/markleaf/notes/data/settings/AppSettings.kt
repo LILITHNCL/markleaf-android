@@ -191,7 +191,11 @@ enum class NotesSortMode {
     UPDATED_DESC,
     UPDATED_ASC,
     TITLE_ASC,
-    TITLE_DESC
+    TITLE_DESC,
+
+    /** Original creation time, unaffected by later edits (#537). */
+    CREATED_DESC,
+    CREATED_ASC
 }
 
 /**

@@ -875,6 +875,8 @@ private fun NotesSortMode.labelResId(): Int = when (this) {
     NotesSortMode.UPDATED_ASC -> R.string.sort_updated_oldest
     NotesSortMode.TITLE_ASC -> R.string.sort_title_az
     NotesSortMode.TITLE_DESC -> R.string.sort_title_za
+    NotesSortMode.CREATED_DESC -> R.string.sort_created_newest
+    NotesSortMode.CREATED_ASC -> R.string.sort_created_oldest
 }
 
 /**

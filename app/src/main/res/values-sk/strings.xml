@@ -178,6 +178,8 @@
     <string name="sort_updated_oldest">Najstaršie úpravy ako prvé</string>
     <string name="sort_title_az">Názov od A po Z</string>
     <string name="sort_title_za">Názov od Z po A</string>
+    <string name="sort_created_newest">Najnovšie vytvorené ako prvé</string>
+    <string name="sort_created_oldest">Najstaršie vytvorené ako prvé</string>
     <string name="tag_result_format">#%1$s</string>
     <string name="no_tags_yet">Zatiaľ žiadne značky</string>
     <string name="tags_empty_hint">Do poznámky napíšte #značky, aby ste ju usporiadali</string>

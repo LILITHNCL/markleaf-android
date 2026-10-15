@@ -177,6 +177,8 @@
     <string name="sort_updated_oldest">最早编辑优先</string>
     <string name="sort_title_az">标题 A 到 Z</string>
     <string name="sort_title_za">标题 Z 到 A</string>
+    <string name="sort_created_newest">最新创建优先</string>
+    <string name="sort_created_oldest">最早创建优先</string>
     <string name="tag_result_format">#%1$s</string>
     <string name="no_tags_yet">暂无标签</string>
     <string name="tags_empty_hint">在笔记中输入 #标签 进行整理</string>

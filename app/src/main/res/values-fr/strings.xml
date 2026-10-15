@@ -175,6 +175,8 @@
     <string name="sort_updated_oldest">Modifications anciennes d\'abord</string>
     <string name="sort_title_az">Titre de A à Z</string>
     <string name="sort_title_za">Titre de Z à A</string>
+    <string name="sort_created_newest">Créations récentes d\'abord</string>
+    <string name="sort_created_oldest">Créations anciennes d\'abord</string>
     <string name="tag_result_format">#%1$s</string>
     <string name="no_tags_yet">Aucune étiquette pour le moment</string>
     <string name="tags_empty_hint">Saisissez des #étiquettes dans une note pour l\'organiser</string>
